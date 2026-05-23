@@ -1,0 +1,6 @@
+# Copy to application-local.properties and fill in your values.
+# application-local.properties is gitignored and loaded automatically when present.
+
+spring.mail.username=your-brevo-smtp-user@smtp-brevo.com
+spring.mail.password=your-brevo-smtp-key
+spring.mail.properties.mail.smtp.from=your-from@gmail.com
