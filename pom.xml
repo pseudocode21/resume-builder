@@ -49,6 +49,15 @@
             <version>4.0.5</version>
             <scope>compile</scope>
         </dependency>
+<!--        Cloudinary dependency-->
+        <!-- Source: https://mvnrepository.com/artifact/com.cloudinary/cloudinary-core -->
+        <!-- Source: https://mvnrepository.com/artifact/com.cloudinary/cloudinary-http5 -->
+        <dependency>
+            <groupId>com.cloudinary</groupId>
+            <artifactId>cloudinary-http44</artifactId>
+            <version>1.39.0</version>
+            <scope>compile</scope>
+        </dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
