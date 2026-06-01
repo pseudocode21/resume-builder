@@ -1,6 +1,7 @@
 package com.resumebuilder.resumebuilderapi.controller;
 
 import com.resumebuilder.resumebuilderapi.dto.AuthResponse;
+import com.resumebuilder.resumebuilderapi.dto.LoginRequest;
 import com.resumebuilder.resumebuilderapi.dto.RegisterRequest;
 import com.resumebuilder.resumebuilderapi.service.AuthService;
 import com.resumebuilder.resumebuilderapi.service.FileUploadService;
@@ -41,9 +42,20 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(Map.of("message", "Email verified Successfully"));
     }
 
-    @PostMapping("/upload-image")
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
+        AuthResponse response = authService.login(request);
+        return ResponseEntity.ok(response);
+    }
+
+
+    @PostMapping(UPDATE_PROFILE)
+
     public ResponseEntity<?> uploadImage(@RequestPart("image") MultipartFile file) throws IOException {
+        log.info("Inside Auth Controller - Upload Image");
         Map<String, String> response = fileUploadService.uploadSingleImage(file);
         return ResponseEntity.ok(response);
     }
+
+
 }
