@@ -48,7 +48,6 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-
     @PostMapping(UPDATE_PROFILE)
 
     public ResponseEntity<?> uploadImage(@RequestPart("image") MultipartFile file) throws IOException {

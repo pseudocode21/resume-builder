@@ -6,6 +6,7 @@ import com.resumebuilder.resumebuilderapi.dto.LoginRequest;
 import com.resumebuilder.resumebuilderapi.dto.RegisterRequest;
 import com.resumebuilder.resumebuilderapi.exception.ResourceExistsException;
 import com.resumebuilder.resumebuilderapi.repository.UserRepository;
+import com.resumebuilder.resumebuilderapi.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,8 @@ public class AuthService {
     private final UserRepository userRepository;
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
+
     @Value("${app.base.url:http://localhost:8080}")
     private String appBaseUrl;
 
@@ -57,7 +60,8 @@ public class AuthService {
             emailService.sendHtmlEmail(newUser.getEmail(), "Verify your email", html);
             log.info("MAIL SENT SUCCESSFULLY");
         } catch (Exception e) {
-            log.error("Exception error occured at sendVerificationEmail(): {}",e.getMessage());
+            log.error("Exception while sending email", e);
+
             throw new RuntimeException("Failed to send verification email : " + e.getMessage());
         }
     }
@@ -106,8 +110,10 @@ public class AuthService {
         if (!passwordEncoder.matches(request.getPassword(), existingUser.getPassword())) {
             throw new UsernameNotFoundException("Invalid Email or Password");
         }
-
-        String token = "jwtToken";
+        if (!existingUser.isEmailVerified()) {
+            throw new RuntimeException("Please verify your Email before logging in.");
+        }
+        String token = jwtUtil.generateToken(existingUser.getId());
 
         AuthResponse response = toResponse(existingUser);
         response.setToken(token);
