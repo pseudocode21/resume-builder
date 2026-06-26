@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.resumebuilder.resumebuilderapi.util.AppConstants.*;
 
@@ -42,19 +43,38 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(Map.of("message", "Email verified Successfully"));
     }
 
-    @PostMapping("/login")
+    @PostMapping(LOGIN)
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
         AuthResponse response = authService.login(request);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping(UPDATE_PROFILE)
-
     public ResponseEntity<?> uploadImage(@RequestPart("image") MultipartFile file) throws IOException {
         log.info("Inside Auth Controller - Upload Image");
         Map<String, String> response = fileUploadService.uploadSingleImage(file);
         return ResponseEntity.ok(response);
     }
 
+//    @GetMapping("/auth/validate")
+//    public String testValidationToken(){
+//        return "Token validation is working";
+//    }
 
+    @PostMapping(RESEND_VERIFICATION)
+    public ResponseEntity<?> resendVerification(@RequestBody Map<String, String> body) {
+        //Step 1: Get the email from request
+        String email = body.get("email");
+
+        //Step 2: Add the validations
+        if (Objects.isNull(email)) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Email is Required"));
+        }
+        //Step 3: Call the service method to resend verification link
+        authService.resendVerification(email);
+        //Step 4: Return response
+        return ResponseEntity.ok(Map.of("success", true, "message", "Verification email sent"));
+
+
+    }
 }
