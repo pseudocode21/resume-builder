@@ -47,7 +47,7 @@ public class JwtUtil {
 
     public boolean validateToken(String token) {
         try {
-            Claims claims = (Claims) Jwts.parser()
+            Jwts.parser()
                     .verifyWith((SecretKey) getSigningKey())
                     .build()
                     .parseSignedClaims(token);
@@ -59,7 +59,7 @@ public class JwtUtil {
 
     public boolean isTokenExpired(String token) {
         try {
-            Claims claims = (Claims) Jwts.parser()
+            Claims claims = Jwts.parser()
                     .verifyWith((SecretKey) getSigningKey())
                     .build()
                     .parseSignedClaims(token)
@@ -69,4 +69,5 @@ public class JwtUtil {
             return true;
         }
     }
+
 }
