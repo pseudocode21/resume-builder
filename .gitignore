@@ -36,3 +36,7 @@ build/
 src/main/resources/application-local.properties
 .env
 .env.*
+
+# Node / Build artifacts
+node_modules/
+dist/
