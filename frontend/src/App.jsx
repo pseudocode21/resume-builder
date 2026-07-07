@@ -5,6 +5,10 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import VerifyEmail from './pages/VerifyEmail';
 import ResendVerification from './pages/ResendVerification';
+import Dashboard from './pages/Dashboard';
+import ResumeEditor from './pages/ResumeEditor';
+import Profile from './pages/Profile';
+import Upgrade from './pages/Upgrade';
 import { LogOut, FileText, User as UserIcon, Loader2, Sparkles, CreditCard } from 'lucide-react';
 
 // Protected Route Wrapper Component
@@ -118,35 +122,6 @@ const LandingPage = () => {
   );
 };
 
-// Temp Placeholder Pages for subsequent phases
-const DashboardPlaceholder = () => (
-  <div className="container">
-    <h2>Dashboard (Phase 2)</h2>
-    <p style={{ color: 'var(--text-secondary)' }}>This view will contain your resume list and management interfaces.</p>
-  </div>
-);
-
-const ProfilePlaceholder = () => (
-  <div className="container">
-    <h2>Profile (Phase 5)</h2>
-    <p style={{ color: 'var(--text-secondary)' }}>This view will show account settings and payment history logs.</p>
-  </div>
-);
-
-const UpgradePlaceholder = () => (
-  <div className="container">
-    <h2>Upgrade to Premium (Phase 5)</h2>
-    <p style={{ color: 'var(--text-secondary)' }}>This view will manage payment checkout and membership upgrades.</p>
-  </div>
-);
-
-const EditorPlaceholder = () => (
-  <div className="container">
-    <h2>Resume Editor (Phase 3)</h2>
-    <p style={{ color: 'var(--text-secondary)' }}>This view will render the split-screen resume builder interface.</p>
-  </div>
-);
-
 function App() {
   return (
     <AuthProvider>
@@ -160,10 +135,10 @@ function App() {
             <Route path="/resend-verification" element={<ResendVerification />} />
             
             {/* Protected Routes */}
-            <Route path="/dashboard" element={<ProtectedRoute><DashboardPlaceholder /></ProtectedRoute>} />
-            <Route path="/profile" element={<ProtectedRoute><ProfilePlaceholder /></ProtectedRoute>} />
-            <Route path="/upgrade" element={<ProtectedRoute><UpgradePlaceholder /></ProtectedRoute>} />
-            <Route path="/editor/:id" element={<ProtectedRoute><EditorPlaceholder /></ProtectedRoute>} />
+            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/upgrade" element={<ProtectedRoute><Upgrade /></ProtectedRoute>} />
+            <Route path="/editor/:id" element={<ProtectedRoute><ResumeEditor /></ProtectedRoute>} />
             
             {/* Redirect unknown routes */}
             <Route path="*" element={<Navigate to="/" replace />} />
