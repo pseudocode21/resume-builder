@@ -37,10 +37,12 @@ const ProtectedRoute = ({ children }) => {
 // Navbar/Layout Wrapper
 const Layout = ({ children }) => {
   const { user, logout, isAuthenticated } = useAuth();
+  const location = useLocation();
+  const isEditorPage = location.pathname.startsWith('/editor');
 
   return (
-    <>
-      <nav className="navbar">
+    <div style={{ display: 'flex', flexDirection: 'column', height: isEditorPage ? '100vh' : 'auto', minHeight: '100vh', overflow: isEditorPage ? 'hidden' : 'visible' }}>
+      <nav className="navbar" style={{ height: '64px', flexShrink: 0 }}>
         <Link to="/" className="logo">
           ResumeCraft
         </Link>
@@ -83,9 +85,11 @@ const Layout = ({ children }) => {
           )}
         </div>
       </nav>
-      {children}
-      <Footer />
-    </>
+      <div style={{ flex: '1', display: 'flex', flexDirection: 'column', overflow: isEditorPage ? 'hidden' : 'visible', minHeight: 0 }}>
+        {children}
+      </div>
+      {!isEditorPage && <Footer />}
+    </div>
   );
 };
 

@@ -24,7 +24,7 @@ const Upgrade = () => {
       // Step 2: Configure Razorpay Checkout options
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_default_key', // Fallback for Sandbox
-        amount: amount, 
+        amount: amount,
         currency: currency,
         name: 'ResumeCraft',
         description: 'Upgrade to Premium Membership',
@@ -61,7 +61,7 @@ const Upgrade = () => {
           color: '#8b5cf6',
         },
         modal: {
-          ondismiss: function() {
+          ondismiss: function () {
             setLoading(false);
           }
         }
@@ -79,7 +79,7 @@ const Upgrade = () => {
 
   return (
     <div className="container animate-fade-in" style={{ maxWidth: '900px' }}>
-      
+
       {/* Back button */}
       <div style={{ marginBottom: '32px' }}>
         <Link to="/dashboard" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--text-secondary)' }}>
@@ -103,7 +103,7 @@ const Upgrade = () => {
 
       {/* Pricing Grids */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px', alignItems: 'stretch', marginBottom: '48px' }}>
-        
+
         {/* Basic Plan */}
         <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', padding: '36px 30px', position: 'relative' }}>
           <h3 style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', marginBottom: '12px' }}>Basic Plan</h3>
@@ -132,24 +132,24 @@ const Upgrade = () => {
         </div>
 
         {/* Premium Plan Card */}
-        <div className="glass-panel" style={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          padding: '36px 30px', 
-          border: '2px solid var(--primary)', 
-          boxShadow: '0 8px 30px rgba(139, 92, 246, 0.25)', 
-          position: 'relative' 
+        <div className="glass-panel" style={{
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '36px 30px',
+          border: '2px solid var(--primary)',
+          boxShadow: '0 8px 30px rgba(139, 92, 246, 0.25)',
+          position: 'relative'
         }}>
           <div style={{ position: 'absolute', top: '16px', right: '20px', background: 'rgba(139, 92, 246, 0.15)', border: '1px solid rgba(139, 92, 246, 0.3)', padding: '4px 12px', borderRadius: 'var(--radius-full)', color: '#a78bfa', fontSize: '0.75rem', fontWeight: 'bold' }}>
             Popular
           </div>
-          
+
           <h3 style={{ fontSize: '1.25rem', color: '#fff', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Sparkles size={18} style={{ color: 'var(--accent)' }} />
             <span>Premium Plan</span>
           </h3>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '24px' }}>
-            <span style={{ fontSize: '2.2rem', fontWeight: '800', color: '#fff' }}>₹499</span>
+            <span style={{ fontSize: '2.2rem', fontWeight: '800', color: '#fff' }}>₹999</span>
             <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>/ one-time</span>
           </div>
 
@@ -182,9 +182,9 @@ const Upgrade = () => {
               <span>Premium Active</span>
             </button>
           ) : (
-            <button 
-              onClick={handleUpgrade} 
-              className={`btn btn-primary ${loading ? 'btn-disabled' : ''}`} 
+            <button
+              onClick={handleUpgrade}
+              className={`btn btn-primary ${loading ? 'btn-disabled' : ''}`}
               style={{ width: '100%' }}
               disabled={loading}
             >
