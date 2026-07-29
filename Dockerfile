@@ -1,11 +1,11 @@
-# Stage 1: Build Spring Boot application with Maven
-FROM eclipse-temurin:17-jdk-alpine AS build
+# Stage 1: Build Spring Boot application with Maven (Java 21)
+FROM eclipse-temurin:21-jdk-alpine AS build
 WORKDIR /app
 COPY . .
 RUN chmod +x ./mvnw && ./mvnw clean package -DskipTests
 
-# Stage 2: Run Spring Boot JAR
-FROM eclipse-temurin:17-jre-alpine
+# Stage 2: Run Spring Boot JAR (Java 21)
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
