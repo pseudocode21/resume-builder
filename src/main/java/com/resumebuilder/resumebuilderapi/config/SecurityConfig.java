@@ -53,13 +53,8 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
         
-        List<String> origins = Arrays.stream(allowedOrigins.split(","))
-                                     .map(String::trim)
-                                     .filter(s -> !s.isEmpty())
-                                     .collect(Collectors.toList());
-
-        // Strictly permit only specified origins/patterns (e.g. your Vercel app and localhost)
-        configuration.setAllowedOriginPatterns(origins);
+        // Allow all origin patterns dynamically (Vercel preview & production domains)
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
