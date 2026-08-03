@@ -40,7 +40,12 @@ public class AuthService {
         User newUser = toDocument(request);
         userRepository.save(newUser);
 
-        sendVerficationEmail(newUser);
+        // Attempt to send verification email (non-blocking - registration succeeds even if email fails)
+        try {
+            sendVerficationEmail(newUser);
+        } catch (Exception e) {
+            log.warn("Verification email could not be sent (user registered successfully): {}", e.getMessage());
+        }
         return toResponse(newUser);
 
     }
