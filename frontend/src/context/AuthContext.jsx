@@ -40,6 +40,14 @@ export const AuthProvider = ({ children }) => {
     return res.data;
   };
 
+  const googleLogin = async (idToken) => {
+    const res = await api.post('/api/auth/firebase', { idToken });
+    const { token, ...userData } = res.data;
+    localStorage.setItem('token', token);
+    setUser(userData);
+    return res.data;
+  };
+
   const logout = () => {
     localStorage.removeItem('token');
     setUser(null);
@@ -59,6 +67,7 @@ export const AuthProvider = ({ children }) => {
     user,
     loading,
     login,
+    googleLogin,
     registerUser,
     logout,
     refreshProfile,

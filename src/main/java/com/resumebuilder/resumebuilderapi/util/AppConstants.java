@@ -7,6 +7,7 @@ public class AppConstants {
     public static final String UPDATE_PROFILE = "/upload-image";
     public static final String LOGIN = "/login";
     public static final String RESEND_VERIFICATION = "/resend-verification";
+    public static final String FIREBASE_AUTH = "/firebase";
     public static final String PROFILE = "/profile";
     public static final String RESUME = "/api/resumes";
     public static final String ID = "/{id}";

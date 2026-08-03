@@ -90,7 +90,7 @@ public class AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .profileImageUrl(request.getProfileImageUrl())
                 .subscriptionPlan("Basic")
-                .emailVerified(false)
+                .emailVerified(true)  // Auto-verify: Render free tier blocks SMTP, so skip email verification
                 .verificationToken(UUID.randomUUID().toString())
                 .verificationExpires(LocalDateTime.now().plusHours(24))
                 .build();
@@ -123,6 +123,53 @@ public class AuthService {
         AuthResponse response = toResponse(existingUser);
         response.setToken(token);
         return response;
+    }
+
+    public AuthResponse firebaseLogin(com.resumebuilder.resumebuilderapi.dto.FirebaseAuthRequest request) {
+        log.info("Inside AuthService: firebaseLogin()");
+        try {
+            String[] parts = request.getIdToken().split("\\.");
+            if (parts.length < 2) {
+                throw new RuntimeException("Invalid token format");
+            }
+            String payloadJson = new String(java.util.Base64.getUrlDecoder().decode(parts[1]), java.nio.charset.StandardCharsets.UTF_8);
+            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+            com.fasterxml.jackson.databind.JsonNode node = mapper.readTree(payloadJson);
+
+            String email = node.has("email") ? node.get("email").asText() : null;
+            String name = node.has("name") ? node.get("name").asText() : (email != null ? email.split("@")[0] : "Google User");
+            String picture = node.has("picture") ? node.get("picture").asText() : null;
+
+            if (email == null || email.isBlank()) {
+                throw new RuntimeException("Email not found in Google account token");
+            }
+
+            User user = userRepository.findByEmail(email).orElseGet(() -> {
+                User newUser = User.builder()
+                        .name(name)
+                        .email(email)
+                        .password(passwordEncoder.encode(UUID.randomUUID().toString()))
+                        .profileImageUrl(picture)
+                        .subscriptionPlan("Basic")
+                        .emailVerified(true)
+                        .build();
+                return userRepository.save(newUser);
+            });
+
+            if (!user.isEmailVerified()) {
+                user.setEmailVerified(true);
+                userRepository.save(user);
+            }
+
+            String token = jwtUtil.generateToken(user.getId());
+            AuthResponse response = toResponse(user);
+            response.setToken(token);
+            return response;
+
+        } catch (Exception e) {
+            log.error("Error during Firebase authentication", e);
+            throw new RuntimeException("Google Authentication failed: " + e.getMessage());
+        }
     }
 
     public void resendVerification(String email) {

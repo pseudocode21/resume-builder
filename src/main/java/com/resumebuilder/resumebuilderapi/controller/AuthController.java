@@ -50,6 +50,13 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping(FIREBASE_AUTH)
+    public ResponseEntity<?> firebaseLogin(@Valid @RequestBody com.resumebuilder.resumebuilderapi.dto.FirebaseAuthRequest request) {
+        log.info("Inside AuthController - firebaseLogin()");
+        AuthResponse response = authService.firebaseLogin(request);
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping(UPDATE_PROFILE)
     public ResponseEntity<?> uploadImage(@RequestPart("image") MultipartFile file) throws IOException {
         log.info("Inside Auth Controller - Upload Image");

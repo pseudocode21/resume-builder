@@ -37,7 +37,7 @@ public class SecurityConfig {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/auth/register", "/api/auth/login", "/api/auth/verify-email", "/api/auth/resend-verification",  "/api/auth/upload-image", "/actuator/**").permitAll()
+                        auth.requestMatchers("/api/auth/register", "/api/auth/login", "/api/auth/verify-email", "/api/auth/resend-verification", "/api/auth/upload-image", "/api/auth/firebase", "/actuator/**").permitAll()
                                 .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
