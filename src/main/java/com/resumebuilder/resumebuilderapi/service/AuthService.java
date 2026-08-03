@@ -16,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -27,6 +29,7 @@ public class AuthService {
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final ObjectMapper objectMapper;
 
     @Value("${app.base.url:http://localhost:8080}")
     private String appBaseUrl;
@@ -133,8 +136,7 @@ public class AuthService {
                 throw new RuntimeException("Invalid token format");
             }
             String payloadJson = new String(java.util.Base64.getUrlDecoder().decode(parts[1]), java.nio.charset.StandardCharsets.UTF_8);
-            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
-            com.fasterxml.jackson.databind.JsonNode node = mapper.readTree(payloadJson);
+            JsonNode node = objectMapper.readTree(payloadJson);
 
             String email = node.has("email") ? node.get("email").asText() : null;
             String name = node.has("name") ? node.get("name").asText() : (email != null ? email.split("@")[0] : "Google User");
