@@ -11,8 +11,9 @@ import Profile from './pages/Profile';
 import Upgrade from './pages/Upgrade';
 import Landing from './pages/Landing';
 import About from './pages/About';
+import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import { LogOut, FileText, User as UserIcon, Loader2, Sparkles, CreditCard } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 // Protected Route Wrapper Component
 const ProtectedRoute = ({ children }) => {
@@ -36,55 +37,12 @@ const ProtectedRoute = ({ children }) => {
 
 // Navbar/Layout Wrapper
 const Layout = ({ children }) => {
-  const { user, logout, isAuthenticated } = useAuth();
   const location = useLocation();
   const isEditorPage = location.pathname.startsWith('/editor');
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: isEditorPage ? '100vh' : 'auto', minHeight: '100vh', overflow: isEditorPage ? 'hidden' : 'visible' }}>
-      <nav className="navbar" style={{ height: '64px', flexShrink: 0 }}>
-        <Link to="/" className="logo">
-          ResumeCraft
-        </Link>
-        <div className="nav-links">
-          <Link to="/about" className="nav-link">About</Link>
-          {isAuthenticated ? (
-            <>
-              <Link to="/dashboard" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <FileText size={16} />
-                <span>Dashboard</span>
-              </Link>
-              <Link to="/profile" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <UserIcon size={16} />
-                <span>Profile</span>
-              </Link>
-              <Link to="/upgrade" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--accent)' }}>
-                <Sparkles size={16} />
-                <span>Premium</span>
-              </Link>
-              <div className="user-badge">
-                {user?.profileImageUrl && (
-                  <img src={user.profileImageUrl} alt="avatar" className="user-avatar" />
-                )}
-                <span style={{ fontSize: '0.85rem', fontWeight: '500' }}>{user?.name}</span>
-              </div>
-              <button
-                onClick={logout}
-                className="btn btn-secondary"
-                style={{ padding: '6px 12px', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem' }}
-              >
-                <LogOut size={14} />
-                <span>Logout</span>
-              </button>
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="nav-link">Login</Link>
-              <Link to="/register" className="btn btn-primary" style={{ padding: '8px 18px', fontSize: '0.85rem' }}>Get Started</Link>
-            </>
-          )}
-        </div>
-      </nav>
+      <Navbar />
       <div style={{ flex: '1', display: 'flex', flexDirection: 'column', overflow: isEditorPage ? 'hidden' : 'visible', minHeight: 0 }}>
         {children}
       </div>
