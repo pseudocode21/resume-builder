@@ -1,9 +1,10 @@
-# Stage 1: Build Spring Boot application with Maven (Java 21)
-FROM eclipse-temurin:21-jdk AS build
+# Stage 1: Build Spring Boot application (Maven + Java 21 pre-installed)
+FROM maven:3-eclipse-temurin-21 AS build
 WORKDIR /app
-RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
-COPY . .
-RUN chmod +x ./mvnw && ./mvnw clean package -DskipTests
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+COPY src ./src
+RUN mvn clean package -DskipTests -B
 
 # Stage 2: Run Spring Boot JAR (Java 21 - Debian with full SSL/TLS support)
 FROM eclipse-temurin:21-jre
