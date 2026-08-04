@@ -2,6 +2,7 @@ package com.resumebuilder.resumebuilderapi.service;
 
 import com.resumebuilder.resumebuilderapi.document.User;
 import com.resumebuilder.resumebuilderapi.dto.AuthResponse;
+import com.resumebuilder.resumebuilderapi.dto.FirebaseAuthRequest;
 import com.resumebuilder.resumebuilderapi.dto.LoginRequest;
 import com.resumebuilder.resumebuilderapi.dto.RegisterRequest;
 import com.resumebuilder.resumebuilderapi.exception.ResourceExistsException;
