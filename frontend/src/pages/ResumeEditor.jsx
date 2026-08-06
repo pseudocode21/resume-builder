@@ -22,6 +22,7 @@ import {
   XCircle,
   Eye,
   LayoutGrid,
+  Edit3,
   X
 } from 'lucide-react';
 
@@ -65,6 +66,9 @@ const ResumeEditor = () => {
   // Finished Template Gallery Modal
   const [showGalleryModal, setShowGalleryModal] = useState(false);
   const [selectedGalleryTheme, setSelectedGalleryTheme] = useState('01');
+
+  // Mobile/Tablet responsive view toggle ('editor' | 'preview')
+  const [mobileTab, setMobileTab] = useState('editor');
 
   // PDF download logic
   const handleDownloadPdf = async () => {
@@ -363,10 +367,30 @@ const ResumeEditor = () => {
   }
 
   return (
-    <div style={{ display: 'flex', flex: '1', height: 'calc(100vh - 64px)', minHeight: 0, overflow: 'hidden' }}>
+    <div className="editor-main-layout">
+
+      {/* Mobile & Tablet Tab Bar Toggle */}
+      <div className="editor-mobile-tab-bar">
+        <button
+          type="button"
+          className={`editor-mobile-tab-btn ${mobileTab === 'editor' ? 'active' : ''}`}
+          onClick={() => setMobileTab('editor')}
+        >
+          <Edit3 size={16} />
+          <span>Form Editor</span>
+        </button>
+        <button
+          type="button"
+          className={`editor-mobile-tab-btn ${mobileTab === 'preview' ? 'active' : ''}`}
+          onClick={() => setMobileTab('preview')}
+        >
+          <Eye size={16} />
+          <span>Live Preview</span>
+        </button>
+      </div>
 
       {/* LEFT PANEL: Collapsible Input Accordion Form */}
-      <div style={{ width: '480px', minWidth: '400px', display: 'flex', flexDirection: 'column', borderRight: '1px solid var(--border-color)', background: 'var(--bg-secondary)', height: '100%' }}>
+      <div className={`editor-left-panel ${mobileTab === 'editor' ? 'mobile-visible' : ''}`}>
         {/* Editor Sub-Header */}
         <div style={{ padding: '16px 24px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--bg-tertiary)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: '1', marginRight: '16px' }}>
@@ -450,13 +474,9 @@ const ResumeEditor = () => {
                           style={{
                             border: isSelected ? `2px solid ${t.color}` : '1px solid var(--border-color)',
                             borderRadius: 'var(--radius-md)',
-                            padding: '10px 8px',
-                            background: isSelected ? 'rgba(139, 92, 246, 0.15)' : 'rgba(255,255,255,0.03)',
+                            padding: '12px 8px',
+                            textAlign: 'center',
                             cursor: 'pointer',
-                            position: 'relative',
-                            transition: 'all 0.2s ease',
-                            display: 'flex',
-                            flexDirection: 'column',
                             alignItems: 'center',
                             gap: '6px'
                           }}
